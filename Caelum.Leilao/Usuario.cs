@@ -1,9 +1,7 @@
 namespace Caelum.Leilao
 {
-
     public class Usuario
     {
-
         public int Id { get; private set; }
         public string Nome { get; private set; }
 
@@ -13,9 +11,8 @@ namespace Caelum.Leilao
 
         public Usuario(int id, string nome)
         {
-            this.Id = id;
-            this.Nome = nome;
+            Id = id;
+            Nome = nome;
         }
-
     }
 }

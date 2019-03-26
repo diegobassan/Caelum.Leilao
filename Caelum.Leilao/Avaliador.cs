@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Caelum.Leilao
 {
     public class Avaliador
     {
-        private double maiorDeTodos = Double.MinValue;
+        private double maiorDeTodos = double.MinValue;
 
-        private double menorDeTodos = Double.MaxValue;
+        private double menorDeTodos = double.MaxValue;
 
         private List<Lance> _maiores;
 
         public void Avalia(Leilao leilao)
         {
-            foreach (var lance in leilao.Lances)
+            foreach (Lance lance in leilao.Lances)
             {
                 if (lance.Valor > maiorDeTodos)
                 {
@@ -37,19 +34,10 @@ namespace Caelum.Leilao
             _maiores = _maiores.GetRange(0, _maiores.Count > 3 ? 3 : _maiores.Count);
         }
 
-        public List<Lance> TresMaiores
-        {
-            get { return this._maiores; }
-        }
+        public List<Lance> TresMaiores => _maiores;
 
-        public double MaiorLance
-        {
-            get { return maiorDeTodos; }
-        }
+        public double MaiorLance => maiorDeTodos;
 
-        public double MenorLance
-        {
-            get { return menorDeTodos; }
-        }
+        public double MenorLance => menorDeTodos;
     }
 }

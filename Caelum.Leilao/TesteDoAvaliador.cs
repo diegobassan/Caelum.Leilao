@@ -1,9 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 
 namespace Caelum.Leilao
 {
@@ -19,18 +15,17 @@ namespace Caelum.Leilao
         [SetUp]
         public void CriaAvaliador()
         {
-            this.leiloeiro = new Avaliador();
+            leiloeiro = new Avaliador();
 
-            this.joao = new Usuario("Joao");
-            this.jose = new Usuario("José");
-            this.maria = new Usuario("Maria");
-            this.joaquim = new Usuario("Joaquim");
+            joao = new Usuario("Joao");
+            jose = new Usuario("José");
+            maria = new Usuario("Maria");
+            joaquim = new Usuario("Joaquim");
         }
 
         [TearDown]
         public void Finaliza()
         {
-
         }
 
         [Test]
@@ -81,7 +76,7 @@ namespace Caelum.Leilao
             //2 - Ação
             leiloeiro.Avalia(leilao);
 
-            var maiores = leiloeiro.TresMaiores;
+            List<Lance> maiores = leiloeiro.TresMaiores;
 
             //3 - Validação
             Assert.AreEqual(3, maiores.Count);
