@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
+﻿using NFluent;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace Caelum.Leilao
 {
     [TestFixture]
-    public class TesteDoAvaliador
+    public class AvaliadorTest
     {
         private Avaliador leiloeiro;
         private Usuario joao;
@@ -29,6 +30,7 @@ namespace Caelum.Leilao
         }
 
         [Test]
+        [Category("Avaliador")]
         public void DeveEntenderLancesEmOrdemCrescente()
         {
             //1 - Cenario
@@ -42,36 +44,40 @@ namespace Caelum.Leilao
             leiloeiro.Avalia(leilao);
 
             //3 - Validação
-            Assert.AreEqual(400, leiloeiro.MaiorLance, 0001);
-            Assert.AreEqual(250, leiloeiro.MenorLance, 0001);
+            Check.That(leiloeiro.MenorLance).Equals(250);
+            Check.That(leiloeiro.MaiorLance).Equals(400);
         }
 
         [Test]
+        [Category("Avaliador")]
         public void DeveEntenderApenasUmLance()
         {
             //1 - Cenario
-            Leilao leilao = new Leilao("Playstation 3 Novo");
+            Leilao leilao = new CriadorDeLeilao().Para("Playstation 3 Novo")
+                .Lance(joao, 300)
+                .Constroi();
 
-            leilao.Propoe(new Lance(joao, 300.0));
+            Check.That(leilao.Lances.Count).Equals(1);
+            Check.That(leilao.Lances[0].Usuario.Nome).Equals("Joao");
 
             //2 - Ação
             leiloeiro.Avalia(leilao);
 
             //3 - Validação
-            Assert.AreEqual(300, leiloeiro.MaiorLance, 0001);
-            Assert.AreEqual(300, leiloeiro.MenorLance, 0001);
+            Check.That(leiloeiro.MaiorLance).Equals(300);
         }
 
         [Test]
+        [Category("Avaliador")]
         public void DeveEncontrarOsTreisMaioresLances()
         {
             //1 - Cenario
-            Leilao leilao = new Leilao("Playstation 3 Novo");
-
-            leilao.Propoe(new Lance(joao, 300.0));
-            leilao.Propoe(new Lance(jose, 350));
-            leilao.Propoe(new Lance(maria, 490));
-            leilao.Propoe(new Lance(joaquim, 605));
+            Leilao leilao = new CriadorDeLeilao().Para("Playstation 3")
+                .Lance(joao, 300)
+                .Lance(jose, 350)
+                .Lance(maria, 490)
+                .Lance(joaquim, 605)
+                .Constroi();
 
             //2 - Ação
             leiloeiro.Avalia(leilao);
@@ -79,7 +85,7 @@ namespace Caelum.Leilao
             List<Lance> maiores = leiloeiro.TresMaiores;
 
             //3 - Validação
-            Assert.AreEqual(3, maiores.Count);
+            Check.That(maiores.Count).Equals(3);
         }
     }
 }
